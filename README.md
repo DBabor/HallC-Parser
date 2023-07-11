@@ -1,5 +1,5 @@
 # HallC-Parser
-First repository so please forgive if something isn't configured right.
+First repository so please let me know something isn't configured right.
 
 *WIP
 This script should select run config data, and organize it to be uploaded with RCDB/CCDB script. Attached is a random EPICS log that I pulled just for testing purposes.
