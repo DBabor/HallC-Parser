@@ -6,7 +6,7 @@ Created:
 July 6th, 2023
 
 Last Updated:
-July 7th, 2023
+July 19th, 2023
 
 Purpose:
 This program is supposed to pull specific log data from JLab and upload it to the RCDB script
@@ -15,33 +15,40 @@ import regex as re
 
 def main():
     
-    # dn was the data we decided to use
-    dn = ["ecSHMS_Angle", "ecpSHMS_SHMS", "HALLA:p", "HALLC:p"]
+    # Mainly placeholder data, really easy to add more to pull
+    dn = ["hac_bcm_average", "haD2_P_Fill_Target_R", "HALLA:p"]
     # just sets selecteddata to a list
     sd = []
     
     # set the open log.txt as opf (open file) and sets f to readlines 
     with open('log.txt', 'r') as opf:
         f = opf.readlines()
-            
+    
     # for each line in f, and phrase in dn (data needed) with the phrase in line, append the line to sd (selected data)
     # basically search for the dn (data needed) phrases and put them in the sd (selected data) list
     for line in f:
         for phrase in dn:
             if phrase in line:
                 sd.append(line)
-
+                
     # split line using regex by 2 spaces
     re.split(r"\s2", line)
-    # I'm sure thats a really dirty way of doing it, but it works
-    # Choose the data you want    
-    # # The number is dependant on which part of the list it appears in. For this example, it would be 0=HALLA:p 1=HALLC:p 2=ecSHMS_Angle, 3=Error because ecpSHMS_SHMS is null
-    choice = int(input("0=HALLA:p 1=HALLC:p 2=ecSHMS_Angle: "))
-    sd = sd[choice].split()
-    # 0=Config 1=Beam(?) 2=Comments
-    # This section will be where we set it to upload the data, currently have the three columns in their seperate sections
-    print(sd[0])
-    print(sd[1])
-    print(sd[2])
     
+    nf = open("test.txt", "a")
+    
+    # Seperates the strings, so you have run number and current together
+    for x in range(len(sd)):
+        thing = sd[x].split()
+        
+        # More can be added more if needed, these are the run configuration, data, and then comments.
+        # Prints out the first item in the list
+        nf.write(f"{thing[0]}   ")
+        # Prints out the second item in the list
+        nf.write(f"{thing[1]}   ")
+        # gives the option to input a comment
+        comment = input(f"If you want to enter a comment for ({thing[0]})\nYou can do so here. If nothing to add, press enter: ")
+        nf.write(f"{comment}\n")
+    
+    nf.close()
+
 main()
